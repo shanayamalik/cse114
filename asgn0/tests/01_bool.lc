@@ -25,8 +25,16 @@ eval not_false :
 
 eval and_false_true:
   AND FALSE TRUE
-  -- (b) fill in your reductions here
-  =d> FALSE
+  =d> (\b1 b2 -> ITE b1 b2 FALSE) FALSE TRUE    -- Expand AND
+  =b> (\b2 -> ITE FALSE b2 FALSE) TRUE          -- Apply FALSE to b1
+  =b> ITE FALSE TRUE FALSE                      -- Apply TRUE to b2
+  =d> (\b x y -> b x y) FALSE TRUE FALSE        -- Expand ITE
+  =b> (\x y -> FALSE x y) TRUE FALSE            -- Apply FALSE to b
+  =d> (\x y -> (\x y -> y) x y) TRUE FALSE      -- Expand FALSE
+  =b> (\y -> (\x y -> y) TRUE y) FALSE          -- Apply TRUE to x
+  =b> (\x y -> y) TRUE FALSE                    -- Apply FALSE to y
+  =b> (\y -> y) FALSE                           -- Apply TRUE
+  =b> FALSE                                     -- Apply FALSE
 
 eval or_true_false :
   OR TRUE FALSE
