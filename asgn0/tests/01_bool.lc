@@ -36,7 +36,15 @@ eval and_false_true:
   =b> (\y -> y) FALSE                           -- Apply TRUE
   =b> FALSE                                     -- Apply FALSE
 
-eval or_true_false :
+eval or_true_false:
   OR TRUE FALSE
-  -- (c) fill in your reductions here
-  =d> TRUE
+  =d> (\b1 b2 -> ITE b1 TRUE b2) TRUE FALSE     -- Expand OR
+  =b> (\b2 -> ITE TRUE TRUE b2) FALSE           -- Apply TRUE to b1
+  =b> ITE TRUE TRUE FALSE                       -- Apply FALSE to b2
+  =d> (\b x y -> b x y) TRUE TRUE FALSE         -- Expand ITE
+  =b> (\x y -> TRUE x y) TRUE FALSE             -- Apply TRUE to b
+  =d> (\x y -> (\x y -> x) x y) TRUE FALSE      -- Expand TRUE
+  =b> (\y -> (\x y -> x) TRUE y) FALSE          -- Apply TRUE to x
+  =b> (\x y -> x) TRUE FALSE                    -- Apply FALSE to y
+  =b> (\y -> TRUE) FALSE                       -- Apply TRUE
+  =b> TRUE                                     -- Apply FALSE
