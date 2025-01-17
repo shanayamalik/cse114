@@ -41,6 +41,16 @@ eval add_one_zero :
   =d> ONE                                      -- Recognize ONE
 
 eval add_one_two :
-  ADD ONE TWO 
-  -- (c) fill in your reductions here
-  =d> THREE
+  ADD ONE TWO
+  =d> (\n m -> n SUC m) ONE TWO                -- Expand ADD
+  =b> (\m -> ONE SUC m) TWO                    -- Apply ONE to n
+  =b> ONE SUC TWO                              -- Apply TWO to m
+  =d> (\f x -> f x) SUC TWO                    -- Expand ONE
+  =b> (\x -> SUC x) TWO                        -- Apply SUC to f
+  =b> SUC TWO                                  -- Apply TWO to x
+  =d> (\n f x -> f (n f x)) TWO               -- Expand SUC
+  =b> \f x -> f (TWO f x)                      -- Apply TWO to n
+  =d> \f x -> f ((\f x -> f (f x)) f x)        -- Expand TWO
+  =b> \f x -> f ((\x -> f (f x)) x)            -- Apply first f
+  =b> \f x -> f (f (f x))                      -- Apply x
+  =d> THREE                                    -- Recognize THREE
