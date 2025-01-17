@@ -18,8 +18,12 @@ let MUL   = \n m -> n (ADD m) ZERO
 -------------------------------------------------------------------------------
 eval suc_one :
   SUC ONE
-  -- (a) fill in your reductions here
-  =d> TWO
+  =d> (\n f x -> f (n f x)) ONE                 -- Expand SUC
+  =b> \f x -> f (ONE f x)                       -- Apply ONE to n
+  =d> \f x -> f ((\f x -> f x) f x)             -- Expand ONE
+  =b> \f x -> f ((\x -> f x) x)                 -- Apply first f
+  =b> \f x -> f (f x)                           -- Apply x
+  =d> TWO                                       -- Recognize TWO
 
 eval add_one_zero :
   ADD ONE ZERO
