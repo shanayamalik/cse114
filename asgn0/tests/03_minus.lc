@@ -35,9 +35,13 @@ let SKIP1 = \f p ->
       (PAIR TRUE (f (SND p))) 
       (PAIR TRUE ZERO)
 
-let DECR  = undefined       -- (b)
+let DECR = \n -> 
+  FST (n (\p -> PAIR (SND p) (INCR (SND p))) (PAIR ZERO ZERO))
+
 let SUB   = undefined       -- (c)
+
 let ISZ   = undefined       -- (d)
+
 let EQL   = undefined       -- (e)
 
 --------------------------------------------------------------------------------
