@@ -44,8 +44,8 @@ let SUB = \n m ->
 let ISZ = \n -> 
   n (\x -> FALSE) TRUE
 
-let EQL   = undefined       -- (e)
-
+let EQL = \n m -> 
+  AND (ISZ (SUB n m)) (ISZ (SUB m n))
 --------------------------------------------------------------------------------
 -- do not modify text AFTER this line
 --------------------------------------------------------------------------------
